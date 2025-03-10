@@ -3,7 +3,7 @@ module "jenkins" {
 
   name = "jenkins-tf"
 
-  instance_type          = "t3.small"
+  instance_type          = "t3.medium"
   vpc_security_group_ids = ["sg-0b8a40c4a52e70f34"] #replace your SG
   subnet_id = "subnet-02676d88afa8fec69" #replace your Subnet
   ami = data.aws_ami.ami_info.id
@@ -82,18 +82,17 @@ module "records" {
       records = [
         module.jenkins_agent.private_ip
       ]
-      allow_overwrite = true
     },
-    # {
-    #   name    = "nexus"
-    #   type    = "A"
-    #   ttl     = 1
-    #   allow_overwrite = true
-    #   records = [
-    #     module.nexus.private_ip
-    #   ]
-    #   allow_overwrite = true
-    # }
+    {
+      name    = "nexus"
+      type    = "A"
+      ttl     = 1
+      allow_overwrite = true
+      records = [
+        module.nexus.private_ip
+      ]
+      allow_overwrite = true
+    }
   ]
 
 }
